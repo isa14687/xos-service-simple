@@ -1,0 +1,27 @@
+name: simple-provider
+accessor:
+  username: admin@opencord.org
+  password: letmein
+  endpoint: xos-core:50051
+models_dir: "/opt/xos/synchronizers/simple_provider/models"
+steps_dir: "/opt/xos/synchronizers/simple_provider/steps"
+model_policies_dir: "/opt/xos/synchronizers/simple_provider/model_policies"
+required_models:
+  - SimpleProviderService
+  - SimpleProviderServiceInstance
+  - KubernetesService
+  - KubernetesServiceInstance
+  - KubernetesConfigMap
+  - KubernetesSecret
+  - KubernetesConfigVolumeMount
+  - KubernetesSecretVolumeMount
+logging:
+  version: 1
+  handlers:
+    console:
+      class: logging.StreamHandler
+  loggers:
+    'multistructlog':
+      handlers:
+          - console
+      level: DEBUG

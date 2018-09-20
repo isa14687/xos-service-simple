@@ -1,0 +1,10 @@
+FROM xosproject/xos-synchronizer-base:candidate
+
+COPY xos/synchronizer /opt/xos/synchronizers/simple_provider
+COPY VERSION /opt/xos/synchronizers/simple_provider/
+
+ENTRYPOINT []
+
+WORKDIR "/opt/xos/synchronizers/simple_provider"
+
+CMD bash -c "python simple-provider-synchronizer.py"

@@ -1,0 +1,25 @@
+name: hello-world
+accessor:
+  username: admin@opencord.org
+  password: letmein
+  endpoint: xos-core:50051
+models_dir: "/opt/xos/synchronizers/hello-world/models"
+steps_dir: "/opt/xos/synchronizers/hello-world/steps"
+model_policies_dir: "/opt/xos/synchronizers/hello-world/model_policies"
+required_models:
+  - HelloWorldService
+  - HelloWorldServiceInstance
+  - KubernetesServiceInstance
+  - KubernetesService
+  - Slice
+  - Image
+logging:
+  version: 1
+  handlers:
+    console:
+      class: logging.StreamHandler
+  loggers:
+    'multistructlog':
+      handlers:
+          - console
+      level: DEBUG

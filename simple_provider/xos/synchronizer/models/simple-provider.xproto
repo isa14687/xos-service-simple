@@ -1,0 +1,11 @@
+option name = "simple-provider";
+option app_label = "simple-provider";
+
+message SimpleProviderService (Service){
+    required string provider_data = 1 [help_text = "", null = False, db_index = False, blank = False];
+}
+
+message SimpleProviderServiceInstance (ServiceInstance){
+    option owner_class_name="SimpleProviderService";
+    required string provider_instance_data = 2 [help_text = "", null = False, db_index = False, blank = False];
+}

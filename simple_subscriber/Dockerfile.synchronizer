@@ -1,0 +1,10 @@
+FROM xosproject/xos-synchronizer-base:candidate
+
+COPY xos/synchronizer /opt/xos/synchronizers/simple_subscriber
+COPY VERSION /opt/xos/synchronizers/simple_subscriber/
+
+ENTRYPOINT []
+
+WORKDIR "/opt/xos/synchronizers/simple_subscriber"
+
+CMD bash -c "python simple-subscriber-synchronizer.py"

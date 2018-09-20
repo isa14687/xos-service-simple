@@ -1,0 +1,14 @@
+tosca_definitions_version: tosca_simple_yaml_1_0
+imports:
+  - custom_types/image.yaml
+
+description: Create an instance image
+
+topology_template:
+  node_templates:
+
+    image:
+      type: tosca.nodes.Image
+      properties:
+        name: "nginx"
+        tag: "latest"

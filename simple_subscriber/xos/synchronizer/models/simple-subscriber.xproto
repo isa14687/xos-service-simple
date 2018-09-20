@@ -1,0 +1,11 @@
+option name = "simple-subscriber";
+option app_label = "simple-subscriber";
+
+message SimpleSubscriberService (Service){
+    required string subscriber_data = 1 [help_text = "", null = False, db_index = False, blank = False];
+}
+
+message SimpleSubscriberServiceInstance (ServiceInstance){
+    option owner_class_name="SimpleSubscriberService";
+    required string subscriber_instance_data = 1 [help_text = "", null = False, db_index = False, blank = False];
+}
