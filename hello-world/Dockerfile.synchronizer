@@ -1,4 +1,4 @@
-FROM xosproject/xos-synchronizer-base:candidate
+FROM xosproject/xos-synchronizer-base:2.1.5
 
 COPY xos/synchronizer /opt/xos/synchronizers/hello-world
 COPY VERSION /opt/xos/synchronizers/hello-world/
