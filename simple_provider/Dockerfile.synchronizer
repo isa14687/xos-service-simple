@@ -1,4 +1,4 @@
-FROM xosproject/xos-synchronizer-base:2.1.5
+FROM xosproject/xos-synchronizer-base:2.0.0
 
 COPY xos/synchronizer /opt/xos/synchronizers/simple_provider
 COPY VERSION /opt/xos/synchronizers/simple_provider/
