@@ -24,10 +24,10 @@ from multistructlog import create_logger
 log = create_logger(Config().get('logging'))
 
 class SimpleProviderServiceInstancePolicy(Policy):
-    model_name = "SimpleProviderServiceInstance"
+    model_name = "IperfClientServiceInstance"
 
     def handle_create(self, service_instance):
-        log.info("handle_create SimpleProviderServiceInstance")
+        log.info("handle_create", object=str(service_instance))
         return self.handle_update(service_instance)
 
 
@@ -36,21 +36,24 @@ class SimpleProviderServiceInstancePolicy(Policy):
         compute_service = KubernetesService.objects.first()
         compute_service_instance_class = Service.objects.get(id=compute_service.id).get_service_instance_class()
 	slice = Slice.objects.filter(name="myslice")[0]
-	image = Image.objects.filter(name="nginx")[0]
-        name="simpleproviderserviceinstance-%s" % service_instance.id
-        instance = compute_service_instance_class(slice=slice, owner=compute_service, image=image, name=name, no_sync=False)
-	instance.save()
-        data = {"index.html": "<html><body><h1>It works!</h1></body></html>"}
-        cfmap = KubernetesConfigMap(name="simpleexampleserviceinstance-map-%s" % service_instance.id, trust_domain=slice.trust_domain, data=json.dumps(data))
+	image = Image.objects.filter(name="isa14687/iperf")[0]
+        name="iperfclientserviceinstance-%s" % service_instance.id
+        instance = compute_service_instance_class(slice=slice, owner=compute_service, image=image, name=name, no_sync=True)
+        instance.save()
+#        data = {"run.sh":"iperf -c 10.233.102.166 -w 100M -t 120  -i 10"}
+        data = {"run.sh":service_instance.iperf_client_cmd}
+        cfmap = KubernetesConfigMap(name="iperfclientserviceinstance-map-%s" % service_instance.id, trust_domain=slice.trust_domain, data=json.dumps(data))
         cfmap.save()
-	cfmap_mnt = KubernetesConfigVolumeMount(config=cfmap, service_instance=instance, mount_path="/usr/share/nginx/html")
+	cfmap_mnt = KubernetesConfigVolumeMount(config=cfmap, service_instance=instance, mount_path="/root/runscript")
         cfmap_mnt.save()
-
+        instance.no_sync = False
+        instance.save(update_fields=["no_sync"])
 
     def handle_delete(self, service_instance):
-        log.info("handle_delete SimpleProviderServiceInstance")
+        log.info("handle_delete", object=str(service_instance))
         compute_service = KubernetesService.objects.first()
         compute_service_instance_class = Service.objects.get(id=compute_service.id).get_service_instance_class()
-	name="simpleproviderserviceinstance-%s" % service_instance.id
+	name="iperfserverserviceinstance-%s" % service_instance.id
 	compute_service_instance_class.objects.get(name=name).delete()
+	KubernetesConfigMap.objects.get(name="iperfclientserviceinstance-map-%s" % service_instance.id).delete()
 

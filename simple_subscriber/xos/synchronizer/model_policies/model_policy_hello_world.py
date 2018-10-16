@@ -23,14 +23,27 @@ from multistructlog import create_logger
 
 log = create_logger(Config().get('logging'))
 
-class SimpleExampleServiceInstancePolicy(Policy):
+class SimpleSubscriberServiceInstancePolicy(Policy):
     model_name = "SimpleSubscriberServiceInstance"
 
     def handle_create(self, service_instance):
         log.info("handle_create SimpleSubscriberServiceInstance", object=str(service_instance))
+	return self.handle_update(service_instance)
 
     def handle_update(self, service_instance):
 	log.info("handle_update SimpleSubscriberServiceInstance", object=str(service_instance))
+        compute_service = KubernetesService.objects.first()
+        compute_service_instance_class = Service.objects.get(id=compute_service.id).get_service_instance_class()
+        slice = Slice.objects.filter(name="myslice")[0]
+        image = Image.objects.filter(name="nginx")[0]
+        name="simplesubscriberserviceinstance-%s" % service_instance.id
+        instance = compute_service_instance_class(slice=slice, owner=compute_service, image=image, name=name, no_sync=False)
+        instance.save()
+
 
     def handle_delete(self, service_instance):
         log.info("handle_delete SimpleSubscriberServiceInstance", object=str(service_instance))
+	compute_service = KubernetesService.objects.first()
+        compute_service_instance_class = Service.objects.get(id=compute_service.id).get_service_instance_class()
+	name = "simplesubscriberserviceinstance-%s" % service_instance.id
+	compute_service_instance_class.objects.get(name=name).delete()

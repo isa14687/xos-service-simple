@@ -5,8 +5,6 @@ imports:
   - custom_types/trustdomain.yaml
   - custom_types/principal.yaml
   - custom_types/slice.yaml
-  - custom_types/simpleproviderservice.yaml
-  - custom_types/simpleproviderserviceinstance.yaml
 
 description: Create an instance of Service
 topology_template:
@@ -19,7 +17,7 @@ topology_template:
     image:
       type: tosca.nodes.Image
       properties:
-        name: "nginx"
+        name: "isa14687/iperf"
         tag: "latest"
     demo_trustdomain:
       type: tosca.nodes.TrustDomain
@@ -43,13 +41,3 @@ topology_template:
         - principal:
             node: demo_principal
             relationship: tosca.relationships.BelongsToOne
-    service#provider:
-      type: tosca.nodes.SimpleProviderService
-      properties:
-        name: SimpleProvider
-        provider_data: new provider
-    serviceinstance#provider:
-      type: tosca.nodes.SimpleProviderServiceInstance
-      properties:
-        name: SimpleProvider Service Instance
-        provider_instance_data: new provider instance

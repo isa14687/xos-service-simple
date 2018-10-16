@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: iperf-server-synchronize
+spec:
+  containers:
+    - name: iperf-server-synchronize
+      image: xosproject/iperf-server-synchronizer:candidate
+      volumeMounts:
+      - name: certchain-volume
+        mountPath: /usr/local/share/ca-certificates/local_certs.crt
+        subPath: config/ca_cert_chain.pem
+  volumes:
+    - name: certchain-volume
+      configMap:
+        name: ca-certificates
+        items:
+          - key: chain
+            path: config/ca_cert_chain.pem
+  restartPolicy: Never

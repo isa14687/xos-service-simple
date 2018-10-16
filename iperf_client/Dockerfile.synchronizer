@@ -1,0 +1,10 @@
+FROM xosproject/xos-synchronizer-base:2.0.0
+
+COPY xos/synchronizer /opt/xos/synchronizers/iperf_client
+COPY VERSION /opt/xos/synchronizers/iperf_client
+
+ENTRYPOINT []
+
+WORKDIR "/opt/xos/synchronizers/iperf_client"
+
+CMD bash -c "python iperf-client-synchronizer.py"

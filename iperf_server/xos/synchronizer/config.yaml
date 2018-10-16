@@ -1,14 +1,14 @@
-name: simple-subscriber
+name: iperf-server
 accessor:
   username: admin@opencord.org
   password: letmein
   endpoint: xos-core:50051
-models_dir: "/opt/xos/synchronizers/simple_subscriber/models"
-steps_dir: "/opt/xos/synchronizers/simple_subscriber/steps"
-model_policies_dir: "/opt/xos/synchronizers/simple_subscriber/model_policies"
+models_dir: "/opt/xos/synchronizers/iperf_server/models"
+steps_dir: "/opt/xos/synchronizers/iperf_server/steps"
+model_policies_dir: "/opt/xos/synchronizers/iperf_server/model_policies"
 required_models:
-  - SimpleSubscriberService
-  - SimpleSubscriberServiceInstance
+  - IperfServerService
+  - IperfServerServiceInstance
   - KubernetesService
   - KubernetesServiceInstance
   - KubernetesConfigMap

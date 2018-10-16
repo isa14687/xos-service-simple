@@ -1,0 +1,10 @@
+option name = "iperf-server";
+option app_label = "iperf-server";
+
+message IperfServerService (Service){
+}
+
+message IperfServerServiceInstance (ServiceInstance){
+    option owner_class_name="IperfServerService";
+    required string iperf_server_cmd = 1 [help_text = "instance data", null = False, db_index = False, blank = False];
+}
